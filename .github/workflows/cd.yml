@@ -1,0 +1,70 @@
+name: dev frontend CI
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'apps/platform/**'
+      - 'apps/admin/**'
+      - 'apps/portal/**'
+      - 'apps/storybook/**'
+
+jobs:
+  # Path별 변경 사항 감지
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      platform: ${{ steps.filter.outputs.platform }}
+      admin: ${{ steps.filter.outputs.admin }}
+      portal: ${{ steps.filter.outputs.portal }}
+      storybook: ${{ steps.filter.outputs.storybook }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            platform:
+              - 'apps/platform/**'
+            admin:
+              - 'apps/admin/**'
+            portal:
+              - 'apps/portal/**'
+            storybook:
+              - 'apps/storybook/**'
+  build:
+    runs-on: ubuntu-latest
+    needs: changes
+    steps:
+      - uses: actions/checkout@v4
+        name: Git Clone, Checkout
+
+      # Build apps
+      - name: build admin
+        if: needs.changes.outputs.admin == 'true'
+        run: echo 'admin'
+      - name: build platform
+        if: needs.changes.outputs.platform == 'true'
+        run: echo 'platform'
+      - name: build portal
+        if: needs.changes.outputs.portal == 'true'
+        run: echo 'portal'
+      - name: build storybook
+        if: needs.changes.outputs.storybook == 'true'
+        run: echo 'storybook'
+
+      # Deploy apps
+      - name: Deploy admin to S3
+        if: needs.changes.outputs.admin == 'true'
+        run: echo 'deploy admin'
+      - name: Deploy platform to S3
+        if: needs.changes.outputs.platform == 'true'
+        run: echo 'deploy platform'
+      - name: Deploy portal to S3
+        if: needs.changes.outputs.portal == 'true'
+        run: echo 'deploy portal'
+      - name: Deploy storybook to S3
+        if: needs.changes.outputs.storybook == 'true'
+        run: echo 'deploy storybook'
