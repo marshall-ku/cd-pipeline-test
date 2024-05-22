@@ -54,7 +54,7 @@ jobs:
 
       # Build apps
       - name: build admin
-        if: if: ${{ needs.changes.outputs.admin == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin' ) }}
+        if: ${{ needs.changes.outputs.admin == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin' ) }}
         run: echo 'admin'
       - name: build platform
         if: ${{ needs.changes.outputs.platform == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'platform' ) }}
