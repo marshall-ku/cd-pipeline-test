@@ -54,16 +54,16 @@ jobs:
 
       # Build apps
       - name: build admin
-        if: if: ${{ needs.changes.outputs.admin == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin') }}
+        if: if: ${{ needs.changes.outputs.admin == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin' ) }}
         run: echo 'admin'
       - name: build platform
-        if: ${{ needs.changes.outputs.platform == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'platform') }}
+        if: ${{ needs.changes.outputs.platform == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'platform' ) }}
         run: echo 'platform'
       - name: build portal
-        if: ${{ needs.changes.outputs.portal == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'portal') }}
+        if: ${{ needs.changes.outputs.portal == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'portal' ) }}
         run: echo 'portal'
       - name: build storybook
-        if: ${{ needs.changes.outputs.storybook == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'storybook') }}
+        if: ${{ needs.changes.outputs.storybook == 'true' || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'storybook' ) }}
         run: echo 'storybook'
 
       # Deploy apps
