@@ -9,6 +9,17 @@ on:
       - 'apps/admin/**'
       - 'apps/portal/**'
       - 'apps/storybook/**'
+  workflow_dispatch:
+    inputs:
+      app:
+        description: '배포할 앱'
+        required: true
+        type: choice
+        options:
+          - platform
+          - admin
+          - portal
+          - storybook
 
 jobs:
   # Path별 변경 사항 감지
@@ -43,16 +54,16 @@ jobs:
 
       # Build apps
       - name: build admin
-        if: needs.changes.outputs.admin == 'true'
+        if: ${{ needs.changes.outputs.admin == 'true' || github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin' }}
         run: echo 'admin'
       - name: build platform
-        if: needs.changes.outputs.platform == 'true'
+        if: ${{ needs.changes.outputs.platform == 'true' || github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'platform' }}
         run: echo 'platform'
       - name: build portal
-        if: needs.changes.outputs.portal == 'true'
+        if: ${{ needs.changes.outputs.portal == 'true' || github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'portal' }}
         run: echo 'portal'
       - name: build storybook
-        if: needs.changes.outputs.storybook == 'true'
+        if: ${{ needs.changes.outputs.storybook == 'true' || github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'storybook' }}
         run: echo 'storybook'
 
       # Deploy apps
