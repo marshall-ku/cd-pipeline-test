@@ -22,6 +22,7 @@ jobs:
       portal: ${{ steps.filter.outputs.portal }}
       storybook: ${{ steps.filter.outputs.storybook }}
     steps:
+      - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -39,7 +40,6 @@ jobs:
     needs: changes
     steps:
       - uses: actions/checkout@v4
-        name: Git Clone, Checkout
 
       # Build apps
       - name: build admin
