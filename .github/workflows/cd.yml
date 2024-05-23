@@ -59,12 +59,12 @@ jobs:
         include:
           - app: platform
             package: platform
-            options: --delete
+            options: "--delete"
           - app: admin
             package: platform_back_office
           - app: portal
             package: portal
-            options: --delete
+            options: "--delete"
           - app: storybook
             package: storybook
     steps:
