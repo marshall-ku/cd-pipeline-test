@@ -9,6 +9,7 @@ on:
       - 'apps/admin/**'
       - 'apps/portal/**'
       - 'apps/storybook/**'
+      - 'packages/**'
   workflow_dispatch:
     inputs:
       app:
@@ -47,23 +48,29 @@ jobs:
               - 'apps/portal/**'
             storybook:
               - 'apps/storybook/**'
+            packages:
+              - 'packages/**'
   build:
     runs-on: ubuntu-latest
     needs: changes
+    strategy:
+      matrix:
+        app: [platform, admin, portal, storybook]
+        include:
+          - app: platform
+            package: platform
+          - app: admin
+            package: platform_back_office
+          - app: portal
+            package: portal
+          - app: storybook
+            package: storybook
     steps:
       - uses: actions/checkout@v4
 
-      # Build apps
-      - name: build admin
-        if: ${{ ( github.event_name == 'push' && needs.changes.outputs.admin == 'true' ) || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'admin') }}
-        run: echo 'admin'
-      - name: build platform
-        if: ${{ ( github.event_name == 'push' && needs.changes.outputs.platform == 'true' ) || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'platform') }}
-        run: echo 'platform'
-      - name: build portal
-        if: ${{ ( github.event_name == 'push' && needs.changes.outputs.portal == 'true' ) || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'portal') }}
-        run: echo 'portal'
-      - name: build storybook
-        if: ${{ ( github.event_name == 'push' && needs.changes.outputs.storybook == 'true' ) || (github.event_name == 'workflow_dispatch' && github.event.inputs.app == 'storybook') }}
-        run: echo 'storybook'
+      # Build with matrix
+      - name: Build ${{ matrix.app }}
+        if: ${{ ( github.event_name == 'push' && ( needs.changes.outputs[matrix.app] == 'true' || needs.changes.outputs.packages == 'true' ) ) || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == matrix.app ) }}
+        run: pnpm build --filter ${{ matrix.package }}
+
 
