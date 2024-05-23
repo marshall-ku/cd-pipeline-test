@@ -59,10 +59,12 @@ jobs:
         include:
           - app: platform
             package: platform
+            options: --delete
           - app: admin
             package: platform_back_office
           - app: portal
             package: portal
+            options: --delete
           - app: storybook
             package: storybook
     steps:
@@ -71,6 +73,6 @@ jobs:
       # Build with matrix
       - name: Build ${{ matrix.app }}
         if: ${{ ( github.event_name == 'push' && ( needs.changes.outputs[matrix.app] == 'true' || needs.changes.outputs.packages == 'true' ) ) || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == matrix.app ) }}
-        run: echo ${{ matrix.app }}
+        run: echo "options:${{ matrix.options }} app:${{ matrix.app }}"
 
 
