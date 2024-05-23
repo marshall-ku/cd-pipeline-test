@@ -71,6 +71,6 @@ jobs:
       # Build with matrix
       - name: Build ${{ matrix.app }}
         if: ${{ ( github.event_name == 'push' && ( needs.changes.outputs[matrix.app] == 'true' || needs.changes.outputs.packages == 'true' ) ) || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == matrix.app ) }}
-        run: pnpm build --filter ${{ matrix.package }}
+        run: echo ${{ matrix.app }}
 
 
