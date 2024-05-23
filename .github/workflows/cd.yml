@@ -75,4 +75,5 @@ jobs:
         if: ${{ ( github.event_name == 'push' && ( needs.changes.outputs[matrix.app] == 'true' || needs.changes.outputs.packages == 'true' ) ) || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == matrix.app ) }}
         run: echo "options:${{ matrix.options }} app:${{ matrix.app }}"
 
-
+      - name: Final
+        run: echo "Done!"
