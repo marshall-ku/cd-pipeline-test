@@ -1,9 +1,9 @@
-name: dev frontend CI
+name: CD
 
 on:
   push:
     branches:
-      - 'master'
+      - master
     paths:
       - 'apps/platform/**'
       - 'apps/admin/**'
