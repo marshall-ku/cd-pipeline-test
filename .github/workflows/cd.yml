@@ -69,11 +69,23 @@ jobs:
             package: storybook
     steps:
       - uses: actions/checkout@v4
+      - name: Step1
+        run: echo 'Step One'
+      - name: Step2
+        run: echo 'Step Two'
+      - name: Step3
+        run: echo 'Step Three'
+      - name: Step4
+        run: echo 'Step Four'
+      - name: Step5
+        run: echo 'Step Five'
+      - name: Step6
+        run: echo 'Step Six'
 
       # Build with matrix
       - name: Build ${{ matrix.app }}
         if: ${{ ( github.event_name == 'push' && ( needs.changes.outputs[matrix.app] == 'true' || needs.changes.outputs.packages == 'true' ) ) || ( github.event_name == 'workflow_dispatch' && github.event.inputs.app == matrix.app ) }}
-        run: ech "options:${{ matrix.options }} app:${{ matrix.app }}"
+        run: echo "options:${{ matrix.options }} app:${{ matrix.app }}"
 
   finally:
     needs: [build]
