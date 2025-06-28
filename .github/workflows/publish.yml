@@ -20,16 +20,16 @@ jobs:
         id: check
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            echo "is_submittable=1" >> $GITHUB_OUTPUT
+            echo "is_submittable=true" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "push" ]; then
             # Commit message should be [DATAC-1626] Bump version of packages
             if [[ $(git log -1 --pretty=%B) == *"[AB-000] Bump version of packages"* ]]; then
-              echo "is_submittable=2" >> $GITHUB_OUTPUT
+              echo "is_submittable=true" >> $GITHUB_OUTPUT
             else
-              echo "is_submittable=3" >> $GITHUB_OUTPUT
+              echo "is_submittable=false" >> $GITHUB_OUTPUT
             fi
           else
-            echo "is_submittable=4" >> $GITHUB_OUTPUT
+            echo "is_submittable=false" >> $GITHUB_OUTPUT
           fi
 
   publish:
