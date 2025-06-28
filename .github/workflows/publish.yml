@@ -11,6 +11,11 @@ jobs:
     outputs:
       is_submittable: ${{ steps.check.outputs.is_submittable }}
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
       - name: Check condition
         id: check
         run: |
